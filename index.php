@@ -4,8 +4,6 @@ $show_complete_tasks = rand(0, 1);
 
 // массив проектов
 $projects = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
-$index = 0;
-$count_projects = count($projects);
 
 // массив задач
 $tasks = [
@@ -91,13 +89,16 @@ $tasks = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php while ($index < $count_projects): ?>
+                    <?php
+                        $index = 0;
+                        $count_projects = count($projects);
+                         while ($index < $count_projects): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?=$projects[$index];?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
                         <?php $index++; ?>
-                        <?php endwhile; ?>
+                    <?php endwhile; ?>
                     </ul>
                 </nav>
 
