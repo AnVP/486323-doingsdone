@@ -135,7 +135,7 @@ $tasks = [
                     <tr class="tasks__item task  <?php if ($item['status']): ?> task--completed <?php endif; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" <?php if ($item['status']): ?> checked <?php endif; ?>>
                                 <span class="checkbox__text"><?=$item['task']; ?></span>
                             </label>
                         </td>
