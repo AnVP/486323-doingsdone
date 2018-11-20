@@ -43,7 +43,18 @@ $tasks = [
         'category' => 'Домашние дела',
         'status' => false
     ]
-]
+];
+
+// функция подсчета задач
+function count_tasks($tasks_list, $name_project) {
+    $count_name_project = 0;
+    foreach ($tasks_list as $key => $item) {
+        if ($item['category'] === $name_project) {
+            $count_name_project++;
+        }
+    }
+    return $count_name_project;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -92,7 +103,7 @@ $tasks = [
                         <?php foreach ($projects as $key => $value): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?=$value;?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $value); ?></span>
                         </li>
                         <?php endforeach; ?>
                     </ul>
