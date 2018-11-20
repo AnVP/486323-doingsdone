@@ -131,6 +131,7 @@ $tasks = [
 
                 <table class="tasks">
                     <?php foreach ($tasks as $key => $item): ?>
+                    <?php if (!$item['status'] and $show_complete_tasks === 1): ?>
                     <tr class="tasks__item task  <?php if ($item['status']): ?> task--completed <?php endif; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
@@ -145,6 +146,7 @@ $tasks = [
 
                         <td class="task__date"><?=$item['date']; ?></td>
                     </tr>
+                    <?php endif; ?>
                     <?php endforeach; ?>
 
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
