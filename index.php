@@ -141,7 +141,7 @@ $tasks = [
                         </td>
 
                         <td class="task__file">
-                            <a class="download-link" href="#">Home.psd</a>
+                            <a class="download-link" href="#"><?=$item['category']; ?>.psd</a>
                         </td>
 
                         <td class="task__date"><?=$item['date']; ?></td>
