@@ -130,11 +130,12 @@ $tasks = [
                 </div>
 
                 <table class="tasks">
-                    <tr class="tasks__item task">
+                    <?php foreach ($tasks as $key => $item): ?>
+                    <tr class="tasks__item task  <?php if ($item['status']): ?> task--completed <?php endif; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                <span class="checkbox__text">Сделать главную страницу Дела в порядке</span>
+                                <span class="checkbox__text"><?=$item['task']; ?></span>
                             </label>
                         </td>
 
@@ -142,8 +143,10 @@ $tasks = [
                             <a class="download-link" href="#">Home.psd</a>
                         </td>
 
-                        <td class="task__date"></td>
+                        <td class="task__date"><?=$item['date']; ?></td>
                     </tr>
+                    <?php endforeach; ?>
+
                     <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
                     <?php if ($show_complete_tasks === 1): ?>
                     <tr class="tasks__item task task--completed">
