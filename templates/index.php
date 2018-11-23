@@ -36,7 +36,7 @@
             <a class="download-link" href="#"><?= esc($item['category']); ?>.psd</a>
         </td>
 
-        <td class="task__date"><?= esc($item['date']); ?></td>
+        <td class="task__date"><?=$item['date']; ?></td>
     </tr>
     <?php endif; ?>
     <?php endforeach; ?>
