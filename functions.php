@@ -34,3 +34,20 @@ function esc($str) {
 
     return $text;
 }
+
+// функция для определения дел с датой выполнения меньше 24 часов
+function check_important_task($task) {
+    $important_hours = 24;
+    $important_date = $task['date'];
+    $important_date_ts = strtotime($important_date);
+    $current_date_ts = time();
+    $ts_diff = $important_date_ts - $current_date_ts;
+    $sec_in_hour = 3600;
+    $diff_hour = floor($ts_diff / $sec_in_hour);
+
+    if ($diff_hour < $important_hours and $task['date'] != 'Нет') {
+        return true;
+    }
+
+    return false;
+}
