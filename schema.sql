@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS projects (
 CREATE TABLE IF NOT EXISTS tasks (
   task_id INT AUTO_INCREMENT PRIMARY KEY,
   creation_date TIMESTAMP,
-  execution_date TIMESTAMP,
+  execution_date TIMESTAMP DEFAULT NULL,
   status INT DEFAULT 0,
   name VARCHAR(128) NOT NULL,
-  file VARCHAR(128),
+  file VARCHAR(128) DEFAULT NULL,
   deadline TIMESTAMP,
   user_id INT NOT NULL,
   project_id INT NOT NULL,
