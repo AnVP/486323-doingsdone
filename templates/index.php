@@ -30,15 +30,15 @@
         <td class="task__select">
             <label class="checkbox task__checkbox">
                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" <?php if ($item['status']): ?> checked <?php endif; ?>>
-                <span class="checkbox__text"><?= esc($item['task']); ?></span>
+                <span class="checkbox__text"><?= esc($item['name']); ?></span>
             </label>
         </td>
 
         <td class="task__file">
-            <a class="download-link" href="#"><?= esc($item['category']); ?>.psd</a>
+            <a class="download-link" href="#"><?= esc($item['file']); ?>.psd</a>
         </td>
 
-        <td class="task__date"><?=$item['date']; ?></td>
+        <td class="task__date"><?=$item['deadline']; ?></td>
     </tr>
     <?php endif; ?>
     <?php endforeach; ?>

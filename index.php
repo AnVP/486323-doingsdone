@@ -5,47 +5,41 @@ require_once('functions.php');
 $show_complete_tasks = rand(0, 1);
 
 // массив проектов
-$projects = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+$projects = [];
 
 // массив задач
-$tasks = [
-    0 => [
-        'task' => 'Собеседование в IT компании',
-        'date' => '01.12.2018',
-        'category' => 'Работа',
-        'status' => false
-    ],
-    1 => [
-        'task' => 'Выполнить тестовое задание',
-        'date' => '25.11.2018',
-        'category' => 'Работа',
-        'status' => false
-    ],
-    2 => [
-        'task' => 'Сделать задание первого раздела',
-        'date' => '21.12.2018',
-        'category' => 'Учеба',
-        'status' => true
-    ],
-    3 => [
-        'task' => 'Встреча с другом',
-        'date' => '22.12.2018',
-        'category' => 'Входящие',
-        'status' => false
-    ],
-    4 => [
-        'task' => 'Купить корм для кота',
-        'date' => 'Нет',
-        'category' => 'Домашние дела',
-        'status' => false
-    ],
-    5 => [
-        'task' => 'Заказать пиццу',
-        'date' => 'Нет',
-        'category' => 'Домашние дела',
-        'status' => false
-    ]
-];
+$tasks = [];
+
+// подключение к СУБД
+$link = mysqli_connect('localhost', 'root', '', 'doingsdone_486323');
+mysqli_set_charset($link, 'utf8');
+
+// код SQL-запроса
+if (!$link) {
+    $error = mysqli_connect_error();
+    print('Ошибка ' . $error);
+}
+else {
+    $sql = 'SELECT * FROM projects';
+    $result = mysqli_query($link, $sql);
+
+    if ($result) {
+        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    else {
+        $error = mysqli_error($link);
+        print('Ошибка ' . $error);
+    }
+
+    $sql = 'SELECT * FROM tasks';
+    if ($res = mysqli_query($link, $sql)) {
+        $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    }
+    else {
+        $error = mysqli_error($link);
+        print('Ошибка ' . $error);
+    }
+}
 
 $page_content = include_template('index.php', [
     'tasks' => $tasks,
