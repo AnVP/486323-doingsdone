@@ -20,8 +20,9 @@ function include_template($name, $data) {
 // функция подсчета задач
 function count_tasks($tasks_list, $name_project) {
     $count_name_project = 0;
+
     foreach ($tasks_list as $key => $item) {
-        if ($item['category'] === $name_project) {
+        if ($item['project_id'] === $name_project) {
             $count_name_project++;
         }
     }
@@ -38,16 +39,25 @@ function esc($str) {
 // функция для определения дел с датой выполнения меньше 24 часов
 function check_important_task($task) {
     $important_hours = 24;
-    $important_date = $task['date'];
+    $important_date = $task['deadline'];
     $important_date_ts = strtotime($important_date);
     $current_date_ts = time();
     $ts_diff = $important_date_ts - $current_date_ts;
     $sec_in_hour = 3600;
     $diff_hour = floor($ts_diff / $sec_in_hour);
 
-    if ($diff_hour < $important_hours and $task['date'] != 'Нет') {
+    if ($diff_hour < $important_hours and $important_date != NULL) {
         return true;
     }
 
     return false;
+}
+
+function check_deadline($item) {
+    if ($item === NULL) {
+        return $item = 'Нет';
+    }
+    $date = date_create($item);
+    $dt_format = date_format($date, 'd.m.Y');
+    return $dt_format;
 }

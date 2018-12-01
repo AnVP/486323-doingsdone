@@ -1,51 +1,28 @@
 <?php
-require_once('functions.php');
+require_once('init.php');
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-// массив проектов
-$projects = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+// код SQL-запроса
 
-// массив задач
-$tasks = [
-    0 => [
-        'task' => 'Собеседование в IT компании',
-        'date' => '01.12.2018',
-        'category' => 'Работа',
-        'status' => false
-    ],
-    1 => [
-        'task' => 'Выполнить тестовое задание',
-        'date' => '25.11.2018',
-        'category' => 'Работа',
-        'status' => false
-    ],
-    2 => [
-        'task' => 'Сделать задание первого раздела',
-        'date' => '21.12.2018',
-        'category' => 'Учеба',
-        'status' => true
-    ],
-    3 => [
-        'task' => 'Встреча с другом',
-        'date' => '22.12.2018',
-        'category' => 'Входящие',
-        'status' => false
-    ],
-    4 => [
-        'task' => 'Купить корм для кота',
-        'date' => 'Нет',
-        'category' => 'Домашние дела',
-        'status' => false
-    ],
-    5 => [
-        'task' => 'Заказать пиццу',
-        'date' => 'Нет',
-        'category' => 'Домашние дела',
-        'status' => false
-    ]
-];
+$sql = 'SELECT * FROM projects WHERE user_id = 1';
+$result = mysqli_query($link, $sql);
+
+if ($result) {
+    $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+else {
+    print('На сайте ведутся технические работы');
+}
+
+$sql = 'SELECT * FROM tasks WHERE user_id = 1';
+if ($res = mysqli_query($link, $sql)) {
+    $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
+}
+else {
+    print('На сайте ведутся технические работы');
+}
 
 $page_content = include_template('index.php', [
     'tasks' => $tasks,
