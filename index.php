@@ -1,18 +1,8 @@
 <?php
-require_once('functions.php');
+require_once('init.php');
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
-
-// массив проектов
-$projects = [];
-
-// массив задач
-$tasks = [];
-
-// подключение к СУБД
-$link = mysqli_connect('localhost', 'root', '', 'doingsdone_486323');
-mysqli_set_charset($link, 'utf8');
 
 // код SQL-запроса
 if (!$link) {
@@ -20,7 +10,7 @@ if (!$link) {
     print('Ошибка ' . $error);
 }
 else {
-    $sql = 'SELECT * FROM projects';
+    $sql = 'SELECT * FROM projects WHERE user_id = 1';
     $result = mysqli_query($link, $sql);
 
     if ($result) {
@@ -31,7 +21,7 @@ else {
         print('Ошибка ' . $error);
     }
 
-    $sql = 'SELECT * FROM tasks';
+    $sql = 'SELECT * FROM tasks WHERE user_id = 1';
     if ($res = mysqli_query($link, $sql)) {
         $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }

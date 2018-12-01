@@ -22,8 +22,11 @@ VALUES ('2018-10-10 22:00:00', NULL, 0, 'Собеседование в IT ком
 # получить список из всех проектов для одного пользователя
 SELECT * FROM projects WHERE user_id = 1;
 
+# получить список задач для одного пользователя
+SELECT * FROM tasks WHERE user_id = 1;
+
 # получить список из всех задач для одного проекта
-SELECT * FROM tasks WHERE project_id = 2;
+SELECT * FROM tasks WHERE project_id = 1;
 
 # пометить задачу как выполненную
 UPDATE tasks SET status = 1

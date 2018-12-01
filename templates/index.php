@@ -38,7 +38,7 @@
             <a class="download-link" href="#"><?= esc($item['file']); ?>.psd</a>
         </td>
 
-        <td class="task__date"><?=$item['deadline']; ?></td>
+        <td class="task__date"><?= check_deadline($item['deadline']); ?></td>
     </tr>
     <?php endif; ?>
     <?php endforeach; ?>

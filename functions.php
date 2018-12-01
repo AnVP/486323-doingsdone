@@ -46,9 +46,18 @@ function check_important_task($task) {
     $sec_in_hour = 3600;
     $diff_hour = floor($ts_diff / $sec_in_hour);
 
-    if ($diff_hour < $important_hours and $task['deadline'] != NULL) {
+    if ($diff_hour < $important_hours and $important_date != NULL) {
         return true;
     }
 
     return false;
+}
+
+function check_deadline($item) {
+    if ($item === NULL) {
+        return $item = 'Нет';
+    }
+    $date = date_create($item);
+    $dt_format = date_format($date, 'd.m.Y');
+    return $dt_format;
 }
