@@ -5,30 +5,23 @@ require_once('init.php');
 $show_complete_tasks = rand(0, 1);
 
 // код SQL-запроса
-if (!$link) {
-    $error = mysqli_connect_error();
-    print('Ошибка ' . $error);
+
+$sql = 'SELECT * FROM projects WHERE user_id = 1';
+$result = mysqli_query($link, $sql);
+
+if ($result) {
+    $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 else {
-    $sql = 'SELECT * FROM projects WHERE user_id = 1';
-    $result = mysqli_query($link, $sql);
+    print('На сайте ведутся технические работы');
+}
 
-    if ($result) {
-        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-    else {
-        $error = mysqli_error($link);
-        print('Ошибка ' . $error);
-    }
-
-    $sql = 'SELECT * FROM tasks WHERE user_id = 1';
-    if ($res = mysqli_query($link, $sql)) {
-        $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    }
-    else {
-        $error = mysqli_error($link);
-        print('Ошибка ' . $error);
-    }
+$sql = 'SELECT * FROM tasks WHERE user_id = 1';
+if ($res = mysqli_query($link, $sql)) {
+    $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
+}
+else {
+    print('На сайте ведутся технические работы');
 }
 
 $page_content = include_template('index.php', [
