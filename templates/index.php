@@ -23,7 +23,7 @@
 
 <table class="tasks">
     <?php foreach ($tasks as $key => $item): ?>
-    <?php if (!$item['status'] and $show_complete_tasks === 1): ?>
+    <?php if (!$item['status'] or $show_complete_tasks === 1): ?>
     <tr class="tasks__item task
         <?php if ($item['status']): ?> task--completed <?php endif; ?>
         <?php if (check_important_task($item)): ?> task--important <?php endif; ?>">
@@ -43,19 +43,4 @@
     <?php endif; ?>
     <?php endforeach; ?>
 
-    <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-    <?php if ($show_complete_tasks === 1): ?>
-    <tr class="tasks__item task task--completed">
-        <td class="task__select">
-            <label class="checkbox task__checkbox">
-                <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-            </label>
-        </td>
-        <td class="task__date">10.10.2018</td>
-
-        <td class="task__controls">
-         </td>
-    </tr>
-    <?php endif; ?>
 </table>
