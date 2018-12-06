@@ -55,7 +55,7 @@ function check_important_task($task) {
 
 function check_deadline($item) {
     if ($item === NULL) {
-        return $item = 'Нет';
+        return 'Нет';
     }
     $date = date_create($item);
     $dt_format = date_format($date, 'd.m.Y');
