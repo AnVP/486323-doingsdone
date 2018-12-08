@@ -1,4 +1,6 @@
 <?php
+require_once('config/db.php');
+
 // функция шаблонизатор
 function include_template($name, $data) {
     $name = 'templates/' . $name;
@@ -60,4 +62,16 @@ function check_deadline($item) {
     $date = date_create($item);
     $dt_format = date_format($date, 'd.m.Y');
     return $dt_format;
+}
+
+// подключение к СУБД
+function connect_db($db) {
+    $link = mysqli_connect($db['host'], $db['user'], $db['password'], $db['database']);
+    mysqli_set_charset($link, 'utf8');
+
+    if (!$link) {
+        exit('Сайт временно не доступен');
+    }
+
+    return $link;
 }
