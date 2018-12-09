@@ -1,6 +1,4 @@
 <?php
-require_once('config/db.php');
-
 // функция шаблонизатор
 function include_template($name, $data) {
     $name = 'templates/' . $name;
