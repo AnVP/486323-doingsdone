@@ -1,6 +1,5 @@
 <?php
 require_once('init.php');
-require_once('functions.php');
 
 $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
 $result = mysqli_query($link, $sql_projects);
@@ -27,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST)) {
         $task = $_POST;
         foreach ($task as $key => $value) {
-            $task[$key] = mysqli_real_escape_string($link, $task[$key]);
+            $value = mysqli_real_escape_string($link, $value);
             // Удаляет пробелы из начала и конца строки
             $task[$key] = trim($task[$key]);
         }
@@ -47,34 +46,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['name'] = 'Название не может быть длиннее 128 символов';
     }
 
+    $task_name = $task['name'];
+    $project_name = $task['project'];
+
     if (empty($task['date'])) {
-        $task['date'] = NULL;
+        $deadline = 'null';
     }
-    elseif(empty($errors['date']) and $task['date'] != NULL and strtotime($task['date']) < time()) {
-            $errors['date'] = 'Дата не может быть раньше текущей';
+    elseif (empty($errors['date']) and strtotime($task['date']) < time()) {
+        $errors['date'] = 'Дата не может быть раньше текущей';
+    }
+    else {
+        $deadline = '"' . $task['date'] . '"';
     }
 
     // Загрузка файла
-    if (is_uploaded_file($_FILES['preview']['name'])) {
+    if (is_uploaded_file($_FILES['preview']['tmp_name'])) {
         $tmp_name = $_FILES['preview']['tmp_name'];
         $path = uniqid();
         move_uploaded_file($tmp_name, 'uploads/' . $path);
         $file = $path;
     }
     else {
-        $file = "";
+        $file = '';
     }
 
     if (empty($errors)) {
 
-        $sql = 'INSERT INTO tasks (name, project_id, user_id, file, deadline)
-        VALUES (
-            ' . $task['name'] . ',
-            ' . $task['project'] . ',
-            ' . $user_id . ',
-            ' . $file . ',
-            ' . $task['date'] .'
-        )';
+        $sql = 'INSERT INTO tasks (creation_date, execution_date, status, name, file, deadline, user_id, project_id)
+        VALUES (NOW(), NULL, 0, "' . $task_name .'", "' . $file . '", ' . $deadline . ', ' . $user_id . ', ' . $project_name . ')';
 
         $result_task = mysqli_query($link, $sql);
 
@@ -82,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: /");
         }
     }
+
 }
 
 $page_content = include_template('form-task.php', [

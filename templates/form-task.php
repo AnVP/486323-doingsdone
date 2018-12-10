@@ -4,7 +4,7 @@
   <div class="form__row">
     <label class="form__label" for="name">Название <sup>*</sup></label>
 
-    <input class="form__input <?= !empty($errors['name']) ? "form__input--error" : ""?>" type="text" name="name" id="name" value="" placeholder="Введите название">
+    <input class="form__input <?= !empty($errors['name']) ? "form__input--error" : ""?>" type="text" name="name" id="name" value="<?=!empty($task['name']) ? esc($task['name']) : ""?>" placeholder="Введите название">
 
     <p class="form__message"><?= !empty($errors['name']) ? $errors['name'] : ""?></p>
   </div>
@@ -14,7 +14,7 @@
 
     <select class="form__input form__input--select <?= !empty($errors['project']) ? "form__input--error" : ""?>" name="project" id="project">
     <?php foreach ($projects as $key => $value): ?>
-      <option value="<?=$value['name'];?>"><?=$value['name'];?></option>
+      <option value="<?=$value['project_id'];?>"><?=esc($value['name']);?></option>
     <?php endforeach; ?>
     </select>
 
@@ -24,9 +24,9 @@
   <div class="form__row">
     <label class="form__label" for="date">Дата выполнения</label>
 
-    <input class="form__input form__input--date <?= !empty($errors['date']) ? "form__input--error" : ""?>" type="date" name="date" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+    <input class="form__input form__input--date <?= !empty($errors['date']) ? "form__input--error" : ""?>" type="date" name="date" id="date" value="<?= !empty($task['date']) ? $task['date'] : ""?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
 
-    <p class="form__message"><p class="form__message"><?= !empty($errors['date']) ? $errors['date'] : ""?></p></p>
+    <p class="form__message"><?= !empty($errors['date']) ? $errors['date'] : "";?></p>
   </div>
 
   <div class="form__row">

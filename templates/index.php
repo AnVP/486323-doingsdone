@@ -35,7 +35,7 @@
         </td>
 
         <td class="task__file">
-            <a class="download-link" href="#"><?= esc($item['file']); ?>.psd</a>
+            <a class="download-link" href="<?= 'uploads/' . $item['file']; ?>"><?= esc($item['file']); ?>.psd</a>
         </td>
 
         <td class="task__date"><?= check_deadline($item['deadline']); ?></td>
