@@ -1,8 +1,6 @@
 <?php
 require_once('init.php');
 
-$user_id = 1;
-
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 

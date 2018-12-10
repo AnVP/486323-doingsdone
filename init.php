@@ -1,17 +1,6 @@
 <?php
-require_once('functions.php');
 require_once('config/db.php');
+require_once('functions.php');
 
-// подключение к СУБД
-function connect_db($db) {
-    $link = mysqli_connect($db['host'], $db['user'], $db['password'], $db['database']);
-    mysqli_set_charset($link, 'utf8');
-
-    if (!$link) {
-        exit('Сайт временно не доступен');
-    }
-
-    return $link;
-}
-
+$user_id = 1;
 $link = connect_db($db);
