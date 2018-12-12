@@ -31,9 +31,9 @@ if (isset($_GET['project_id'])) {
     $result_project = mysqli_query($link, $sql_projects_select);
 
     $result_tasks = mysqli_query($link, $sql_tasks_select);
-    $row = mysqli_num_rows($result_tasks);
+    $row = mysqli_num_rows($result_project);
 
-    if ($result_project and $row !== 0) {
+    if ($result_project and $result_tasks and $row !== 0) {
         $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
     }
     else {

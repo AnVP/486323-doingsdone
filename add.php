@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($task as $key => $value) {
             $value = mysqli_real_escape_string($link, $value);
             // Удаляет пробелы из начала и конца строки
-            $task[$key] = trim($task[$key]);
+            $task[$key] = trim($value);
         }
     }
 
@@ -46,9 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['name'] = 'Название не может быть длиннее 128 символов';
     }
 
-    $task_name = $task['name'];
-    $project_name = $task['project'];
-
     if (empty($task['date'])) {
         $deadline = 'null';
     }
@@ -64,16 +61,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $tmp_name = $_FILES['preview']['tmp_name'];
         $path = uniqid();
         move_uploaded_file($tmp_name, 'uploads/' . $path);
-        $file = $path;
+        $file = '"' . $path .'"';
     }
     else {
-        $file = '';
+        $file = 'null';
     }
 
     if (empty($errors)) {
+        $task_name = $task['name'];
+        $project_name = $task['project'];
 
         $sql = 'INSERT INTO tasks (creation_date, execution_date, status, name, file, deadline, user_id, project_id)
-        VALUES (NOW(), NULL, 0, "' . $task_name .'", "' . $file . '", ' . $deadline . ', ' . $user_id . ', ' . $project_name . ')';
+        VALUES (NOW(), NULL, 0, "' . $task_name .'", ' . $file . ', ' . $deadline . ', ' . $user_id . ', ' . $project_name . ')';
 
         $result_task = mysqli_query($link, $sql);
 
@@ -81,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: /");
         }
     }
-
 }
 
 $page_content = include_template('form-task.php', [
@@ -99,4 +97,3 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
-
