@@ -42,16 +42,24 @@ if (isset($_GET['project_id'])) {
     }
 }
 
-$page_content = include_template('index.php', [
-    'tasks' => $tasks,
-    'show_complete_tasks' => $show_complete_tasks
-]);
+session_start();
+
+if (!empty($_SESSION['user'])) {
+    $page_content = include_template('index.php', [
+        'tasks' => $tasks,
+        'show_complete_tasks' => $show_complete_tasks
+    ]);
+}
+else {
+    $page_content = include_template('guest.php', [
+    ]);
+}
+
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'tasks_active' => $tasks_active,
     'projects' => $projects,
-    'title' => 'Дела в порядке',
-    'user_name' => 'Константин'
+    'title' => 'Дела в порядке'
 ]);
 
 print($layout_content);

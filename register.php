@@ -4,22 +4,20 @@ require_once('init.php');
 $data = [];
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Экранируем спецсимволы
-    if (!empty($_POST)) {
-        $data = $_POST;
-        foreach ($data as $key => $value) {
-            $value = mysqli_real_escape_string($link, $value);
-            // Удаляет пробелы из начала и конца строки
-            $data[$key] = trim($value);
-        }
+// Экранируем спецсимволы
+if (!empty($_POST)) {
+    foreach ($_POST as $key => $value) {
+        $data[$key] = mysqli_real_escape_string($link, $_POST[$key]);
     }
-
     $required = ['email', 'password', 'name'];
-
     // Обязательные поля
     foreach ($required as $key) {
-        if (empty($_POST[$key])) {
+        // Удаляет пробелы из начала и конца строки
+        if (!empty($data[$key])) {
+            $data[$key] = trim($data[$key]);
+        }
+
+        if (empty($data[$key])) {
             $errors[$key] = 'Это поле надо заполнить';
         }
     }
@@ -29,17 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['name'] = 'Имя не может быть длиннее 128 символов';
     }
 
-    if (empty($errors['email']) and strlen($data['email']) > 128) {
-        $errors['email'] = 'E-mail не может быть длиннее 128 символов';
-    }
-
-    if (empty($errors['password']) and strlen($data['password']) > 128) {
-        $errors['password'] = 'Пароль не может быть длиннее 64 символов';
-    }
-
-    // Проверка email
     if (!empty($data['email'])) {
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+        if (empty($errors['email']) and strlen($data['email']) > 128) {
+            $errors['email'] = 'E-mail не может быть длиннее 128 символов';
+        }
+        elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'E-mail введён некорректно';
         }
         $sql = 'SELECT user_id FROM users WHERE email = "' . $data['email'] . '"';
@@ -51,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Пароль
     if (!empty($data['password'])) {
+        if (empty($errors['password']) and strlen($data['password']) > 128) {
+            $errors['password'] = 'Пароль не может быть длиннее 64 символов';
+        }
         $password = password_hash($data['password'], PASSWORD_DEFAULT);
     }
 
@@ -66,10 +61,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$layout_content = include_template('reg.php', [
+$page_content = include_template('reg.php', [
     'data' => $data,
-    'errors' => $errors,
-    'title' => 'Дела в порядке',
+    'errors' => $errors
+]);
+
+$layout_content = include_template('layout.php', [
+    'content' => $page_content,
+    'tasks_active' => '',
+    'projects' => '',
+    'title' => 'Регистрация аккаунта'
 ]);
 
 print($layout_content);

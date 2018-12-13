@@ -14,7 +14,7 @@
 
     <select class="form__input form__input--select <?= !empty($errors['project']) ? "form__input--error" : ""?>" name="project" id="project">
     <?php foreach ($projects as $key => $value): ?>
-      <option value="<?=$value['project_id'];?>"><?=esc($value['name']);?></option>
+      <option value="<?=$value['project_id'];?>" <?=(!empty($task['project']) and $task['project'] === $value['project_id']) ? "selected" : "";?>><?=esc($value['name']);?></option>
     <?php endforeach; ?>
     </select>
 
