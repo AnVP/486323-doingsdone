@@ -1,6 +1,8 @@
 <?php
 require_once('init.php');
 
+session_start();
+
 $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
 $result = mysqli_query($link, $sql_projects);
 if ($result) {
@@ -21,15 +23,14 @@ $task = [];
 $errors = [];
 
 // Валидация формы
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     // Экранируем спецсимволы
-    if (!empty($_POST)) {
-        $task = $_POST;
-        foreach ($task as $key => $value) {
-            $value = mysqli_real_escape_string($link, $value);
-            // Удаляет пробелы из начала и конца строки
-            $task[$key] = trim($value);
-        }
+if (!empty($_POST)) {
+    $task = $_POST;
+    foreach ($task as $key => $value) {
+        $value = mysqli_real_escape_string($link, $value);
+        // Удаляет пробелы из начала и конца строки
+        $task[$key] = trim($value);
     }
 
     $required = ['name', 'project'];
@@ -92,8 +93,7 @@ $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'tasks_active' => $tasks_active,
     'projects' => $projects,
-    'title' => 'Дела в порядке',
-    'user_name' => 'Константин'
+    'title' => 'Добавление задачи'
 ]);
 
 print($layout_content);
