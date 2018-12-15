@@ -8,6 +8,9 @@ require_once('functions.php');
 
 session_start();
 
+$show_complete_tasks = 0;
+$task_filter = '';
+
 $user = !empty($_SESSION['user']) ?  $_SESSION['user'] : [];
 $user_id = !empty($user['user_id']) ? $user['user_id'] : '';
 $link = connect_db($db);
