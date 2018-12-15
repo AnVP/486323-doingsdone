@@ -23,6 +23,7 @@ $errors = [];
 
 if (!empty($_POST)) {
     foreach ($_POST as $key => $value) {
+        // Экранируем спецсимволы
         $data[$key] = mysqli_real_escape_string($link, $_POST[$key]);
     }
     $required = ['email', 'password'];
@@ -39,29 +40,27 @@ if (!empty($_POST)) {
     }
 
     // Проверка полей
-    if (!empty($data['email'])) {
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'E-mail введён некорректно';
-        }
-        else {
-            $email = mysqli_real_escape_string($link, $data['email']);
-            $sql = 'SELECT * FROM users WHERE email = "' . $email . '"';
-            $res = mysqli_query($link, $sql);
+    if (!empty($data['email']) and empty($errors['email']) and !filter_var($data['email'], FILTER_VALIDATE_EMAIL) and strlen($data['email']) > 128) {
+        $errors['email'] = 'E-mail введён некорректно';
+    }
+    else {
+         $email = mysqli_real_escape_string($link, $data['email']);
+        $sql = 'SELECT * FROM users WHERE email = "' . $email . '"';
+        $res = mysqli_query($link, $sql);
 
-            $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
+        $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
-            if (empty($errors) and $user) {
-                if (password_verify($data['password'], $user['password'])) {
-                    $_SESSION['user'] = $user;
-                    header("Location: /");
-                }
-                else {
-                    $errors['password'] = 'Неверный пароль';
-                }
+        if (empty($errors) and $user) {
+            if (password_verify($data['password'], $user['password'])) {
+                $_SESSION['user'] = $user;
+                   header("Location: /");
             }
             else {
-                $errors['email'] = 'Такой пользователь не найден';
-            }
+               $errors['password'] = 'Неверный пароль';
+           }
+        }
+        else {
+            $errors['email'] = 'Такой пользователь не найден';
         }
     }
 }

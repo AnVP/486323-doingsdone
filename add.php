@@ -24,9 +24,9 @@ $errors = [];
 
 // Валидация формы
 
-    // Экранируем спецсимволы
 if (!empty($_POST)) {
     $task = $_POST;
+    // Экранируем спецсимволы
     foreach ($task as $key => $value) {
         $value = mysqli_real_escape_string($link, $value);
         // Удаляет пробелы из начала и конца строки
