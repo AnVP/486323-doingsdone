@@ -1,10 +1,8 @@
 <?php
 require_once('init.php');
 
-if (!$user){
-    header("Location: /");
-}
-
+if ($user){
+    var_dump($user);
 $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
 $result = mysqli_query($link, $sql_projects);
 if ($result) {
@@ -99,3 +97,4 @@ $layout_content = include_template('layout.php', [
 ]);
 
 print($layout_content);
+}

@@ -4,7 +4,6 @@ require_once('init.php');
 if ($user){
     header("Location: /");
 }
-
 $data = [];
 $errors = [];
 
@@ -67,7 +66,6 @@ if (!empty($_POST)) {
         }
     }
 }
-
 $page_content = include_template('auth.php', [
     'data' => $data,
     'errors' => $errors
