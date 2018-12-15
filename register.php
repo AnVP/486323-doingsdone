@@ -1,6 +1,10 @@
 <?php
 require_once('init.php');
 
+if ($user){
+    header("Location: /");
+}
+
 $data = [];
 $errors = [];
 
@@ -27,10 +31,10 @@ if (!empty($_POST)) {
         $errors['name'] = 'Имя не может быть длиннее 128 символов';
     }
 
-    if (!empty($data['email']) or empty($errors['email']) or !filter_var($data['email'], FILTER_VALIDATE_EMAIL) or strlen($data['email']) > 128) {
+    if (empty($errors['email']) and !filter_var($data['email'], FILTER_VALIDATE_EMAIL) or strlen($data['email']) > 128) {
         $errors['email'] = 'E-mail введён некорректно';
     }
-    else {
+    if (empty($errors)) {
         $sql = 'SELECT user_id FROM users WHERE email = "' . $data['email'] . '"';
         $res = mysqli_query($link, $sql);
         if (mysqli_num_rows($res) > 0) {

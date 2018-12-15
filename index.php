@@ -1,6 +1,8 @@
 <?php
 require_once('init.php');
 
+if ($user){
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
@@ -41,25 +43,29 @@ if (isset($_GET['project_id'])) {
         exit();
     }
 }
-
-session_start();
-
-if (!empty($_SESSION['user'])) {
-    $page_content = include_template('index.php', [
-        'tasks' => $tasks,
-        'show_complete_tasks' => $show_complete_tasks
-    ]);
-}
-else {
-    $page_content = include_template('guest.php', [
-    ]);
-}
-
+$page_content = include_template('index.php', [
+    'tasks' => $tasks,
+    'show_complete_tasks' => $show_complete_tasks
+]);
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'tasks_active' => $tasks_active,
     'projects' => $projects,
-    'title' => 'Дела в порядке'
+    'title' => 'Дела в порядке',
+    'user' => $user
 ]);
+}
+else {
+    $page_content = include_template('guest.php', [
+        ]);
+        $layout_content = include_template('layout.php', [
+            'content' => $page_content,
+            'tasks_active' => '',
+            'projects' => '',
+            'title' => 'Дела в порядке',
+            'guest' => true,
+            'user' => ''
+        ]);
+}
 
 print($layout_content);

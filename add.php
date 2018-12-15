@@ -1,7 +1,9 @@
 <?php
 require_once('init.php');
 
-session_start();
+if (!$user){
+    header("Location: /");
+}
 
 $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
 $result = mysqli_query($link, $sql_projects);

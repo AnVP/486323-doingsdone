@@ -1,25 +1,28 @@
 <?php
 require_once('init.php');
-$sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
-$result = mysqli_query($link, $sql_projects);
-if ($result) {
-    $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-}
 
-$sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
-if ($res = mysqli_query($link, $sql_tasks)) {
-    $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
+if ($user){
+    header("Location: /");
 }
-
-$sql_tasks_active = $sql_tasks . ' AND status = 0';
-if ($res_active = mysqli_query($link, $sql_tasks_active)) {
-    $tasks_active = mysqli_fetch_all($res_active, MYSQLI_ASSOC);
-}
-
-session_start();
 
 $data = [];
 $errors = [];
+
+// $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
+// $result = mysqli_query($link, $sql_projects);
+// if ($result) {
+//     $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+// }
+
+// $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
+// if ($res = mysqli_query($link, $sql_tasks)) {
+//     $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
+// }
+
+// $sql_tasks_active = $sql_tasks . ' AND status = 0';
+// if ($res_active = mysqli_query($link, $sql_tasks_active)) {
+//     $tasks_active = mysqli_fetch_all($res_active, MYSQLI_ASSOC);
+// }
 
 if (!empty($_POST)) {
     foreach ($_POST as $key => $value) {
@@ -40,10 +43,10 @@ if (!empty($_POST)) {
     }
 
     // Проверка полей
-    if (!empty($data['email']) and empty($errors['email']) and !filter_var($data['email'], FILTER_VALIDATE_EMAIL) and strlen($data['email']) > 128) {
+    if (empty($errors['email']) and !filter_var($data['email'], FILTER_VALIDATE_EMAIL) or strlen($data['email']) > 128) {
         $errors['email'] = 'E-mail введён некорректно';
     }
-    else {
+    if (empty($errors)) {
          $email = mysqli_real_escape_string($link, $data['email']);
         $sql = 'SELECT * FROM users WHERE email = "' . $email . '"';
         $res = mysqli_query($link, $sql);
@@ -73,8 +76,8 @@ $page_content = include_template('auth.php', [
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'title' => 'Вход на сайт',
-    'tasks_active' => $tasks_active,
-    'projects' => $projects,
+    'tasks_active' => '',
+    'projects' => '',
 ]);
 
 print($layout_content);
