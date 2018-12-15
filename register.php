@@ -29,7 +29,7 @@ if (!$user){
             $errors['name'] = 'Имя не может быть длиннее 128 символов';
         }
 
-        if (empty($errors['email']) and !filter_var($data['email'], FILTER_VALIDATE_EMAIL) or strlen($data['email']) > 128) {
+        if (empty($errors['email']) and (!filter_var($data['email'], FILTER_VALIDATE_EMAIL) or strlen($data['email']) > 128)) {
             $errors['email'] = 'E-mail введён некорректно';
         }
         if (empty($errors)) {
