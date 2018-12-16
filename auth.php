@@ -3,6 +3,7 @@ require_once('init.php');
 
 if ($user){
     header("Location: /");
+    exit();
 }
 $data = [];
 $errors = [];
@@ -40,6 +41,7 @@ if (!empty($_POST)) {
             if (password_verify($data['password'], $user['password'])) {
                 $_SESSION['user'] = $user;
                    header("Location: /");
+                   exit();
             }
             else {
                $errors['password'] = 'Неверный пароль';

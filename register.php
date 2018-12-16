@@ -3,6 +3,7 @@ require_once('init.php');
 
 if ($user){
     header("Location: /");
+    exit();
 }
 
 $data = [];
@@ -58,6 +59,7 @@ if (!empty($_POST)) {
 
         if ($result_user) {
             header("Location: /");
+            exit();
         }
     }
 }

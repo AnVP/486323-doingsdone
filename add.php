@@ -62,6 +62,7 @@ if ($user){
 
             if ($result_task) {
                 header("Location: /");
+                exit();
             }
         }
     }

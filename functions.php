@@ -81,9 +81,10 @@ function get_projects($link, $user_id) {
     $result = mysqli_query($link, $sql_projects);
 
     if ($result) {
-        $data['result'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        return $data['result'];
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
+
+    return $data;
 }
 
 // Получение списка задач для данного пользователя
@@ -93,21 +94,23 @@ function get_tasks($link, $user_id) {
     $result = mysqli_query($link, $sql_tasks);
 
     if ($result) {
-        $data['result'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        return $data['result'];
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
+
+    return $data;
 }
 
 // Получение списка активных задач для данного пользователя
 function get_active_tasks($link, $user_id) {
     $data = [];
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND status = 0';;
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND status = 0';
     $result = mysqli_query($link, $sql_tasks);
 
     if ($result) {
-        $data['result'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        return $data['result'];
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
+
+    return $data;
 }
 
 // Получение списка задач для данного проекта
