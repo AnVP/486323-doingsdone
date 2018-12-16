@@ -2,37 +2,10 @@
 require_once('init.php');
 
 if ($user){
-    // код SQL-запроса
-
-    $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
-    $result = mysqli_query($link, $sql_projects);
-
-    if ($result) {
-        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
-    if ($res = mysqli_query($link, $sql_tasks)) {
-        $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    }
-
-    $sql_tasks_active = $sql_tasks . ' AND status = 0';
-    if ($res_active = mysqli_query($link, $sql_tasks_active)) {
-        $tasks_active = mysqli_fetch_all($res_active, MYSQLI_ASSOC);
-    }
-
     if (isset($_GET['project_id'])) {
         $project_id = intval($_GET['project_id']);
-        $sql_projects_select = $sql_projects . ' AND project_id = ' . $project_id;
-        $sql_tasks_select = $sql_tasks . ' AND project_id = ' . $project_id;
-
-        $result_project = mysqli_query($link, $sql_projects_select);
-
-        $result_tasks = mysqli_query($link, $sql_tasks_select);
-        $row = mysqli_num_rows($result_project);
-
-        if ($result_project and $result_tasks and $row !== 0) {
-            $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
+        if ($tasks) {
+            $tasks = get_tasks_project($link, $project_id, $user_id);
         }
         else {
             http_response_code(404);
@@ -65,21 +38,16 @@ if ($user){
         $task_filter =  $_GET['tasks-switch'];
 
         if ($task_filter === 'today') {
-            $sql_tasks = $sql_tasks . ' AND deadline = CURDATE()';
-            $res = mysqli_query($link, $sql_tasks);
+            $data = ' AND deadline = CURDATE()';
         }
         if ($task_filter === 'tomorrow') {
-            $sql_tasks = $sql_tasks . ' AND deadline = ADDDATE(CURDATE(),
+            $data = ' AND deadline = ADDDATE(CURDATE(),
              INTERVAL 1 DAY)';
-             $res = mysqli_query($link, $sql_tasks);
         }
         if ($task_filter === 'expired') {
-            $sql_tasks = $sql_tasks . ' AND deadline < CURDATE()';
-            $res = mysqli_query($link, $sql_tasks);
+            $data = ' AND deadline < CURDATE()';
         }
-        if ($res) {
-            $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
-        }
+        $tasks = filter_tasks($link, $data, $user_id);
     }
 
     $page_content = include_template('index.php', [

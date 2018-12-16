@@ -3,27 +3,10 @@ require_once('init.php');
 
 if ($user){
 
-    $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
-    $result = mysqli_query($link, $sql_projects);
-    if ($result) {
-        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
-    if ($res = mysqli_query($link, $sql_tasks)) {
-        $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    }
-
-    $sql_tasks_active = $sql_tasks . ' AND status = 0';
-    if ($res_active = mysqli_query($link, $sql_tasks_active)) {
-        $tasks_active = mysqli_fetch_all($res_active, MYSQLI_ASSOC);
-    }
-
     $task = [];
     $errors = [];
 
     // Валидация формы
-
     if (!empty($_POST)) {
         $task = $_POST;
         // Экранируем спецсимволы

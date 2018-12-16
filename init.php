@@ -14,3 +14,7 @@ $task_filter = '';
 $user = !empty($_SESSION['user']) ?  $_SESSION['user'] : [];
 $user_id = !empty($user['user_id']) ? $user['user_id'] : '';
 $link = connect_db($db);
+
+$projects = get_projects($link, $user_id);
+$tasks = get_tasks($link, $user_id);
+$tasks_active = get_active_tasks($link, $user_id);
