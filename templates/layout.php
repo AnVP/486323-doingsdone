@@ -62,7 +62,7 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                   href="add-project.php" target="project_add">Добавить проект</a>
+                   href="add-project.php">Добавить проект</a>
             </section>
             <?php elseif (empty($user) and empty($guest)) : ?>
             <section class="content__side">

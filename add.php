@@ -33,7 +33,7 @@ if ($user){
         if (empty($task['date'])) {
             $deadline = 'null';
         }
-        elseif (empty($errors['date']) and strtotime($task['date']) < time()) {
+        elseif (empty($errors['date']) and strtotime($task['date']) < strtotime(date('Y-m-d'))) {
             $errors['date'] = 'Дата не может быть раньше текущей';
         }
         else {

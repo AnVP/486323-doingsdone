@@ -116,26 +116,20 @@ function get_active_tasks($link, $user_id) {
 // Получение списка задач для данного проекта
 function get_tasks_project($link, $project_id, $user_id) {
     $tasks = [];
-    $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
-    $sql_projects_select = $sql_projects . ' AND project_id = ' . $project_id;
-    $sql_tasks_select = $sql_tasks . ' AND project_id = ' . $project_id;
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND project_id = ' . $project_id;
 
-    $result_project = mysqli_query($link, $sql_projects_select);
+    $result_tasks = mysqli_query($link, $sql_tasks);
 
-    $result_tasks = mysqli_query($link, $sql_tasks_select);
-    $row = mysqli_num_rows($result_project);
-
-    if ($result_project and $result_tasks and $row !== 0) {
-        $tasks['result'] = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
-        return $tasks['result'];
+    if ($result_tasks) {
+        $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
     }
+    return $tasks;
 }
 
 // Фильтр задач
-function filter_tasks($link, $data, $user_id) {
+function filter_tasks($link, $data, $user_id, $project_id) {
     $tasks = [];
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . $data;
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND project_id = ' . $project_id . $data;
     $result = mysqli_query($link, $sql_tasks);
     if ($result) {
         $tasks['result'] = mysqli_fetch_all($result, MYSQLI_ASSOC);

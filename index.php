@@ -41,17 +41,24 @@ if (isset($_GET['task_id'])) {
 }
 
 // Показывать выполненные задачи
-if (isset($_GET['show_completed'])) {
+if (isset($_GET['show_completed']) && in_array(isset($_GET['show_completed']), $show_complete_values)) {
     $show_complete_tasks = intval($_GET['show_completed']);
-    if (isset($user['show_completed'])) {
-        $show_complete_tasks = intval($user['show_completed']);
-    }
+    $_SESSION['show_completed'] = $show_complete_tasks;
+}
+
+if (isset($_SESSION['show_completed'])) {
+    $show_complete_tasks = $_SESSION['show_completed'];
+}
+else {
+$show_complete_tasks = 0;
 }
 
 // Фильтр по задачам
-if (isset($_GET['tasks-switch'])) {
-    $task_filter =  $_GET['tasks-switch'];
-
+$task_filter =  $_GET['tasks-switch'] ?? '';
+$project_id = $_GET['project_id'] ?? '';
+if (isset($_GET['tasks-switch']) and isset($_GET['project_id'])) {
+    // $task_filter =  $_GET['tasks-switch'] ?? '';
+    // $project_id = $_GET['project_id'] ?? '';
     switch ($task_filter) {
         case $task_filter === 'today':
             $data = ' AND deadline = CURDATE()';
@@ -64,13 +71,14 @@ if (isset($_GET['tasks-switch'])) {
             break;
     }
 
-    $tasks = filter_tasks($link, $data, $user_id);
+    $tasks = filter_tasks($link, $data, $user_id, $project_id);
 }
 
 $page_content = include_template('index.php', [
     'tasks' => $tasks,
     'show_complete_tasks' => $show_complete_tasks,
-    'task_filter' => $task_filter
+    'task_filter' => $task_filter,
+    'project_id' => $project_id
 ]);
 $layout_content = include_template('layout.php', [
     'content' => $page_content,

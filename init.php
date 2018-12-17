@@ -8,7 +8,7 @@ require_once('functions.php');
 
 session_start();
 
-$show_complete_tasks = 0;
+$show_complete_values = [0, 1];
 $task_filter = '';
 
 $user = !empty($_SESSION['user']) ?  $_SESSION['user'] : [];
