@@ -54,11 +54,7 @@ $show_complete_tasks = 0;
 }
 
 // Фильтр по задачам
-$task_filter =  $_GET['tasks-switch'] ?? '';
-$project_id = $_GET['project_id'] ?? '';
 if (isset($_GET['tasks-switch']) and isset($_GET['project_id'])) {
-    // $task_filter =  $_GET['tasks-switch'] ?? '';
-    // $project_id = $_GET['project_id'] ?? '';
     switch ($task_filter) {
         case $task_filter === 'today':
             $data = ' AND deadline = CURDATE()';
