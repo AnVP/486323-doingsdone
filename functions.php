@@ -73,3 +73,66 @@ function connect_db($db) {
 
     return $link;
 }
+
+// Получение списка проектов для данного пользователя
+function get_projects($link, $user_id) {
+    $data = [];
+    $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
+    $result = mysqli_query($link, $sql_projects);
+
+    if ($result) {
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $data;
+}
+
+// Получение списка задач для данного пользователя
+function get_tasks($link, $user_id) {
+    $data = [];
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
+    $result = mysqli_query($link, $sql_tasks);
+
+    if ($result) {
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $data;
+}
+
+// Получение списка активных задач для данного пользователя
+function get_active_tasks($link, $user_id) {
+    $data = [];
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND status = 0';
+    $result = mysqli_query($link, $sql_tasks);
+
+    if ($result) {
+        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $data;
+}
+
+// Получение списка задач для данного проекта
+function get_tasks_project($link, $project_id, $user_id) {
+    $tasks = [];
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND project_id = ' . $project_id;
+
+    $result_tasks = mysqli_query($link, $sql_tasks);
+
+    if ($result_tasks) {
+        $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
+    }
+    return $tasks;
+}
+
+// Фильтр задач
+function filter_tasks($link, $data, $user_id, $project_id) {
+    $tasks = [];
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND project_id = ' . $project_id . $data;
+    $result = mysqli_query($link, $sql_tasks);
+    if ($result) {
+        $tasks['result'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return $tasks['result'];
+    }
+}

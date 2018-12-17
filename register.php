@@ -1,17 +1,22 @@
 <?php
 require_once('init.php');
 
+if ($user){
+    header("Location: /");
+    exit();
+}
+
 $data = [];
 $errors = [];
 
-// Экранируем спецсимволы
 if (!empty($_POST)) {
-    foreach ($_POST as $key => $value) {
-        $data[$key] = mysqli_real_escape_string($link, $_POST[$key]);
-    }
     $required = ['email', 'password', 'name'];
     // Обязательные поля
     foreach ($required as $key) {
+        if (!empty($_POST[$key])){
+            // Экранируем спецсимволы
+            $data[$key] = mysqli_real_escape_string($link, $_POST[$key]);
+        }
         // Удаляет пробелы из начала и конца строки
         if (!empty($data[$key])) {
             $data[$key] = trim($data[$key]);
@@ -27,13 +32,10 @@ if (!empty($_POST)) {
         $errors['name'] = 'Имя не может быть длиннее 128 символов';
     }
 
-    if (!empty($data['email'])) {
-        if (empty($errors['email']) and strlen($data['email']) > 128) {
-            $errors['email'] = 'E-mail не может быть длиннее 128 символов';
-        }
-        elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'E-mail введён некорректно';
-        }
+    if (empty($errors['email']) and (!filter_var($data['email'], FILTER_VALIDATE_EMAIL) or strlen($data['email']) > 128)) {
+        $errors['email'] = 'E-mail введён некорректно';
+    }
+    if (empty($errors['email'])) {
         $sql = 'SELECT user_id FROM users WHERE email = "' . $data['email'] . '"';
         $res = mysqli_query($link, $sql);
         if (mysqli_num_rows($res) > 0) {
@@ -57,6 +59,7 @@ if (!empty($_POST)) {
 
         if ($result_user) {
             header("Location: /");
+            exit();
         }
     }
 }

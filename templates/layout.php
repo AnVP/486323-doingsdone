@@ -12,26 +12,27 @@
 <body>
 <h1 class="visually-hidden">Дела в порядке</h1>
 
-<div class="page-wrapper <?= (empty($_SESSION['user']) and $_SERVER['REQUEST_URI'] ==='/') ? "body-background" : ""?>">
-    <div class="container  container--with-sidebar">
+<div class="page-wrapper <?= !empty($guest) ? "body-background" : ""?>">
+    <div class="container <?= empty($guest) ? "container--with-sidebar" : ""?>">
+
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if (!empty($_SESSION['user'])) : ?>
+                <?php if (!empty($user)) : ?>
                 <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
                 <?php endif; ?>
 
                 <div class="main-header__side-item user-menu">
-                    <?php if (!empty($_SESSION['user'])) : ?>
+                    <?php if (!empty($user)) : ?>
                     <div class="user-menu__image">
                         <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
                     </div>
 
                     <div class="user-menu__data">
-                        <p><?= esc($_SESSION['user']['name']); ?></p>
+                        <p><?= esc($user['name']); ?></p>
 
                         <a href="logout.php">Выйти</a>
                     </div>
@@ -45,7 +46,7 @@
         </header>
 
         <div class="content">
-            <?php if (!empty($_SESSION['user'])) : ?>
+            <?php if (!empty($user) and empty($guest)) : ?>
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
 
@@ -61,9 +62,9 @@
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button"
-                   href="pages/form-project.html" target="project_add">Добавить проект</a>
+                   href="add-project.php">Добавить проект</a>
             </section>
-            <?php elseif (empty($_SESSION['user']) and $_SERVER['REQUEST_URI'] !=='/') : ?>
+            <?php elseif (empty($user) and empty($guest)) : ?>
             <section class="content__side">
                 <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
@@ -86,7 +87,7 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-        <?php if (!empty($_SESSION['user'])) : ?>
+        <?php if (!empty($user)) : ?>
         <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">
