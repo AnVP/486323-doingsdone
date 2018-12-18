@@ -127,12 +127,12 @@ function get_tasks_project($link, $project_id, $user_id) {
 }
 
 // Фильтр задач
-function filter_tasks($link, $data, $user_id, $project_id) {
+function filter_tasks($link, $data, $user_id) {
     $tasks = [];
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND project_id = ' . $project_id . $data;
+    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . $data;
     $result = mysqli_query($link, $sql_tasks);
     if ($result) {
-        $tasks['result'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        return $tasks['result'];
+        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
+    return $tasks;
 }

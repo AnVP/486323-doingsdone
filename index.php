@@ -54,16 +54,23 @@ $show_complete_tasks = 0;
 }
 
 // Фильтр по задачам
-if (isset($_GET['tasks-switch']) and isset($_GET['project_id'])) {
+$data = '';
+
+if (isset($_GET['project_id'])) {
+    $project_id = $_GET['project_id'];
+    $data = ' AND project_id = ' . $project_id;
+}
+
+if (isset($_GET['tasks-switch'])) {
     switch ($task_filter) {
         case $task_filter === 'today':
-            $data = ' AND deadline = CURDATE()';
+            $data = $data . ' AND deadline = CURDATE()';
             break;
         case $task_filter === 'tomorrow':
-            $data = ' AND deadline = ADDDATE(CURDATE(),INTERVAL 1 DAY)';
+            $data .= $data . ' AND deadline = ADDDATE(CURDATE(),INTERVAL 1 DAY)';
             break;
         case $task_filter === 'expired':
-            $data = ' AND deadline < CURDATE()';
+            $data .= $data . ' AND deadline < CURDATE()';
             break;
     }
 
