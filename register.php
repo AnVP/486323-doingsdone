@@ -45,9 +45,6 @@ if (!empty($_POST)) {
 
     // Пароль
     if (!empty($data['password'])) {
-        if (empty($errors['password']) and strlen($data['password']) > 128) {
-            $errors['password'] = 'Пароль не может быть длиннее 64 символов';
-        }
         $password = password_hash($data['password'], PASSWORD_DEFAULT);
     }
 

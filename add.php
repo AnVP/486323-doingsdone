@@ -16,13 +16,9 @@ if ($user){
             $task[$key] = trim($value);
         }
 
-        $required = ['name', 'project'];
-
         // Обязательные поля
-        foreach ($required as $key) {
-            if (empty($_POST[$key])) {
-                $errors[$key] = 'Это поле надо заполнить';
-            }
+        if (empty($_POST['name'])) {
+            $errors['name'] = 'Это поле надо заполнить';
         }
 
         // Проверка полей
@@ -53,7 +49,10 @@ if ($user){
 
         if (empty($errors)) {
             $task_name = $task['name'];
-            $project_name = $task['project'];
+            $project_name = 'null';
+            if (!empty($task['project'])) {
+                $project_name = $task['project'];
+            }
 
             $sql = 'INSERT INTO tasks (creation_date, execution_date, status, name, file, deadline, user_id, project_id)
             VALUES (NOW(), NULL, 0, "' . $task_name .'", ' . $file . ', ' . $deadline . ', ' . $user_id . ', ' . $project_name . ')';

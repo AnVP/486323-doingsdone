@@ -54,34 +54,42 @@ $show_complete_tasks = 0;
 }
 
 // Фильтр по задачам
-$data = '';
-
 if (isset($_GET['project_id'])) {
     $project_id = $_GET['project_id'];
-    $data = ' AND project_id = ' . $project_id;
+    $value = ' AND project_id = ' . $project_id;
 }
 
 if (isset($_GET['tasks-switch'])) {
     switch ($task_filter) {
         case $task_filter === 'today':
-            $data = $data . ' AND deadline = CURDATE()';
+            $value = $value . ' AND deadline = CURDATE()';
             break;
         case $task_filter === 'tomorrow':
-            $data .= $data . ' AND deadline = ADDDATE(CURDATE(),INTERVAL 1 DAY)';
+            $value .= $value . ' AND deadline = ADDDATE(CURDATE(),INTERVAL 1 DAY)';
             break;
         case $task_filter === 'expired':
-            $data .= $data . ' AND deadline < CURDATE()';
+            $value .= $value . ' AND deadline < CURDATE()';
             break;
     }
 
-    $tasks = filter_tasks($link, $data, $user_id, $project_id);
+    $tasks = get_tasks($link, $user_id, $value);
+}
+
+if (isset($_GET['search'])) {
+    $search = trim(mysqli_real_escape_string($link, $_GET['search']));
+
+    if (!empty($search)) {
+        $value_search = ' AND MATCH(name) AGAINST("' . $search . '")';
+        $tasks = get_tasks($link, $user_id, $value_search);
+    }
 }
 
 $page_content = include_template('index.php', [
     'tasks' => $tasks,
     'show_complete_tasks' => $show_complete_tasks,
     'task_filter' => $task_filter,
-    'project_id' => $project_id
+    'project_id' => $project_id,
+    'search' => $search
 ]);
 $layout_content = include_template('layout.php', [
     'content' => $page_content,

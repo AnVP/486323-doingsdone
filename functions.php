@@ -46,7 +46,7 @@ function check_important_task($task) {
     $sec_in_hour = 3600;
     $diff_hour = floor($ts_diff / $sec_in_hour);
 
-    if ($diff_hour < $important_hours and $important_date != NULL) {
+    if ($diff_hour < $important_hours and $important_date !== NULL) {
         return true;
     }
 
@@ -88,9 +88,12 @@ function get_projects($link, $user_id) {
 }
 
 // Получение списка задач для данного пользователя
-function get_tasks($link, $user_id) {
+function get_tasks($link, $user_id, $value) {
     $data = [];
     $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
+    if ($value) {
+        $sql_tasks = $sql_tasks . $value;
+    }
     $result = mysqli_query($link, $sql_tasks);
 
     if ($result) {
@@ -122,17 +125,6 @@ function get_tasks_project($link, $project_id, $user_id) {
 
     if ($result_tasks) {
         $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
-    }
-    return $tasks;
-}
-
-// Фильтр задач
-function filter_tasks($link, $data, $user_id) {
-    $tasks = [];
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . $data;
-    $result = mysqli_query($link, $sql_tasks);
-    if ($result) {
-        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     return $tasks;
 }
