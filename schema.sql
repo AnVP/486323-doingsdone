@@ -29,8 +29,10 @@ CREATE TABLE IF NOT EXISTS tasks (
   file VARCHAR(128) DEFAULT NULL,
   deadline TIMESTAMP DEFAULT NULL,
   user_id INT NOT NULL,
-  project_id INT NOT NULL,
+  project_id INT,
+  FULLTEXT (name),
 
-  FOREIGN KEY (user_id) REFERENCES users(user_id),
   FOREIGN KEY (project_id) REFERENCES projects(project_id)
 );
+
+

@@ -9,13 +9,15 @@ require_once('functions.php');
 session_start();
 
 $show_complete_values = [0, 1];
-
+$value = '';
 $user = !empty($_SESSION['user']) ?  $_SESSION['user'] : [];
 $user_id = !empty($user['user_id']) ? $user['user_id'] : '';
 $link = connect_db($db);
 
 $projects = get_projects($link, $user_id);
-$tasks = get_tasks($link, $user_id);
+$tasks = get_tasks($link, $user_id, $value);
 $tasks_active = get_active_tasks($link, $user_id);
 $task_filter =  $_GET['tasks-switch'] ?? '';
 $project_id = $_GET['project_id'] ?? '';
+$search = '';
+

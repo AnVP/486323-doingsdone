@@ -31,7 +31,7 @@ if (!empty($_POST)) {
         $errors['email'] = 'E-mail введён некорректно';
     }
     if (empty($errors)) {
-         $email = mysqli_real_escape_string($link, $data['email']);
+        $email = $data['email'];
         $sql = 'SELECT * FROM users WHERE email = "' . $email . '"';
         $res = mysqli_query($link, $sql);
 

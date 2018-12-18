@@ -31,7 +31,7 @@ if (!empty($_POST)) {
     }
 
     if (empty($errors)) {
-        $sql_project = 'SELECT * FROM projects WHERE user_id = "' . $user_id . '" and name = "' . $project['name'] . '"';
+        $sql_project = 'SELECT * FROM projects WHERE user_id = "' . $user_id . '" AND name = "' . $project['name'] . '"';
         $res = mysqli_query($link, $sql_project);
         if (mysqli_num_rows($res) > 0) {
             $errors['name'] = 'Такой проект уже существует';
