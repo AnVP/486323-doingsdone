@@ -41,7 +41,6 @@ if ($res and mysqli_num_rows($res)) {
         ]);
         $message -> setBody($msg_content, 'text/html');
         $result = $mailer -> send($message);
-        var_dump($result);
     }
 
     if ($result) {

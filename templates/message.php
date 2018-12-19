@@ -23,8 +23,6 @@
     <?php foreach ($user_tasks as $i => $task): ?>
         <tr>
             <td><?=$i+1;?></td>
-            <td><img src="http://giftube.academy/uploads/preview_<?=$gif['path'];?>"
-                     style="max-width: 200px;"></td>
             <td><?=esc($task['task_name']);?></td>
             <td><?=esc($task['deadline']);?></td>
         </tr>
