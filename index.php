@@ -19,7 +19,7 @@ if (!$user){
 if (isset($_GET['project_id'])) {
     $project_id = intval($_GET['project_id']);
     if ($tasks) {
-        $tasks = get_tasks_project($link, $project_id, $user_id);
+        $tasks = get_tasks($link, $user_id, (' AND project_id = ' . $project_id));
     }
     else {
         http_response_code(404);

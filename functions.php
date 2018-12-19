@@ -1,5 +1,11 @@
 <?php
-// функция шаблонизатор
+/**
+ * Подключает шаблон
+ * @param $name string Имя шаблона
+ * @param $data array Массив данных
+ *
+ * @return $result string Шаблон
+ */
 function include_template($name, $data) {
     $name = 'templates/' . $name;
     $result = '';
@@ -17,7 +23,13 @@ function include_template($name, $data) {
     return $result;
 }
 
-// функция подсчета задач
+/**
+ * Считает количество задач в проекте
+ * @param $tasks_list array Список задач
+ * @param $name_project integer id проекта
+ *
+ * @return $count_name_project integer Количество задач
+ */
 function count_tasks($tasks_list, $name_project) {
     $count_name_project = 0;
 
@@ -29,14 +41,24 @@ function count_tasks($tasks_list, $name_project) {
     return $count_name_project;
 }
 
-// функция для фильтрации данных
+/**
+ * Преобразует специальные символы HTML
+ * @param $str string Данные, введенные пользователем
+ *
+ * @return $text string Преобразованные данные
+ */
 function esc($str) {
     $text = htmlspecialchars($str);
 
     return $text;
 }
 
-// функция для определения дел с датой выполнения меньше 24 часов
+/**
+ * Определяет дела с датой выполнения меньше 24 часов
+ * @param $task array Задача
+ *
+ * @return bool Истекает время выполнения да/нет
+ */
 function check_important_task($task) {
     $important_hours = 24;
     $important_date = $task['deadline'];
@@ -53,6 +75,12 @@ function check_important_task($task) {
     return false;
 }
 
+/**
+ * Проверяет, есть ли дата выполнения у задачи, если есть, возвращает дату в нужном формате
+ * @param $item NULL/string Дата выполнения задачи
+ *
+ * @return $dt_format string Дата в формате Д.М.Г
+ */
 function check_deadline($item) {
     if ($item === NULL) {
         return 'Нет';
@@ -62,7 +90,12 @@ function check_deadline($item) {
     return $dt_format;
 }
 
-// подключение к СУБД
+/**
+ * Подключение к СУБД
+ * @param $db array Параметры подключения
+ *
+ * @return $link mysqli Соединение с СУБД
+ */
 function connect_db($db) {
     $link = mysqli_connect($db['host'], $db['user'], $db['password'], $db['database']);
     mysqli_set_charset($link, 'utf8');
@@ -74,7 +107,13 @@ function connect_db($db) {
     return $link;
 }
 
-// Получение списка проектов для данного пользователя
+/**
+ * Получение списка проектов для данного пользователя
+ * @param $link mysqli Соединение с СУБД
+ * @param $user_id integer id пользователя
+ *
+ * @return $data NULL/array Массив проектов
+ */
 function get_projects($link, $user_id) {
     $data = [];
     $sql_projects = 'SELECT * FROM projects WHERE user_id = ' . $user_id;
@@ -87,7 +126,14 @@ function get_projects($link, $user_id) {
     return $data;
 }
 
-// Получение списка задач для данного пользователя
+/**
+ * Получение списка задач для данного пользователя
+ * @param $link mysqli Соединение с СУБД
+ * @param $user_id integer id пользователя
+ * @param $value string Дополнительные условия для выбора задач
+ *
+ * @return $data NULL/array Массив проектов
+ */
 function get_tasks($link, $user_id, $value) {
     $data = [];
     $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id;
@@ -101,30 +147,4 @@ function get_tasks($link, $user_id, $value) {
     }
 
     return $data;
-}
-
-// Получение списка активных задач для данного пользователя
-function get_active_tasks($link, $user_id) {
-    $data = [];
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND status = 0';
-    $result = mysqli_query($link, $sql_tasks);
-
-    if ($result) {
-        $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-    return $data;
-}
-
-// Получение списка задач для данного проекта
-function get_tasks_project($link, $project_id, $user_id) {
-    $tasks = [];
-    $sql_tasks = 'SELECT * FROM tasks WHERE user_id = ' . $user_id . ' AND project_id = ' . $project_id;
-
-    $result_tasks = mysqli_query($link, $sql_tasks);
-
-    if ($result_tasks) {
-        $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
-    }
-    return $tasks;
 }
