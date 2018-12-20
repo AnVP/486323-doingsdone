@@ -7,7 +7,6 @@ if (!$user){
     exit();
 }
 
-
 $project = [];
 $errors = [];
 

@@ -17,7 +17,7 @@ if ($user){
         }
 
         // Обязательные поля
-        if (empty($_POST['name'])) {
+        if (empty($task['name'])) {
             $errors['name'] = 'Это поле надо заполнить';
         }
 
