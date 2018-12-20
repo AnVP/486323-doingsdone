@@ -33,7 +33,7 @@
     <label class="form__label" for="preview">Файл</label>
 
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" name="preview" id="preview" value="<?= !empty($task['file']) ? $task['file'] : ""?>">
+      <input class="visually-hidden" type="file" name="preview" id="preview" value="">
 
       <label class="button button--transparent" for="preview">
         <span>Выберите файл</span>

@@ -24,7 +24,7 @@
         <tr>
             <td><?=$i+1;?></td>
             <td><?=esc($task['task_name']);?></td>
-            <td><?=esc($task['deadline']);?></td>
+            <td><?=$task['deadline'];?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

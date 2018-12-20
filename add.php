@@ -17,13 +17,13 @@ if ($user){
         }
 
         // Обязательные поля
-        if (empty($_POST['name'])) {
+        if (empty($task['name'])) {
             $errors['name'] = 'Это поле надо заполнить';
         }
 
         // Проверка полей
-        if (empty($errors['name']) and (strlen($task['name']) > 128 or $task['name'] === '')) {
-            $errors['name'] = 'Название не может быть длиннее 128 символов или пустой строкой';
+        if (empty($errors['name']) and strlen($task['name']) > 128) {
+            $errors['name'] = 'Название не может быть длиннее 128 символов';
         }
 
         if (empty($task['date'])) {

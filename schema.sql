@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS tasks (
   deadline TIMESTAMP DEFAULT NULL,
   user_id INT NOT NULL,
   project_id INT,
-  FULLTEXT (name),
+  FULLTEXT INDEX task_ft_search (name),
 
   FOREIGN KEY (project_id) REFERENCES projects(project_id)
 );

@@ -10,7 +10,7 @@ $mailer = new Swift_Mailer($transport);
 $logger = new Swift_Plugins_Loggers_ArrayLogger();
 $mailer -> registerPlugin(new Swift_Plugins_LoggerPlugin($logger));
 
-$sql = 'SELECT *, tasks.name as task_name FROM tasks WHERE deadline <= ADDDATE(CURRENT_TIMESTAMP, INTERVAL 1 HOUR) AND deadline >= CURRENT_TIMESTAMP AND status = 0 JOIN users ON tasks.user_id = users.user_id';
+$sql = 'SELECT users.*, tasks.name as task_name, tasks.deadline FROM tasks JOIN users ON tasks.user_id = users.user_id WHERE deadline <= ADDDATE(CURRENT_TIMESTAMP, INTERVAL 1 HOUR) AND deadline >= CURRENT_TIMESTAMP AND status = 0';
 
 $res = mysqli_query($link, $sql);
 
