@@ -29,7 +29,7 @@ if ($res and mysqli_num_rows($res)) {
     foreach($users as $key => $value) {
         $user_tasks = $value;
         $user_email = $value[0]['email'];
-        $user_name = $value[0]['name'];
+        $user_name = $value[0]['user_name'];
 
         $message -> setSubject('Уведомление от сервиса «Дела в порядке»');
         $message -> setFrom (['keks@phpdemo.ru' => 'Doingsdone']);

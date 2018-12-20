@@ -37,13 +37,13 @@ if (!empty($_POST)) {
 
         $user = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
-        if (password_verify($data['password'], $user['password'])) {
+        if ($user === null) {
+            $errors['email'] = 'Такой пользователь не найден';
+        }
+        elseif (password_verify($data['password'], $user['password'])) {
             $_SESSION['user'] = $user;
             header("Location: /");
                exit();
-        }
-        elseif ($user === null) {
-            $errors['email'] = 'Такой пользователь не найден';
         }
         else {
             $errors['password'] = 'Неверный пароль';
